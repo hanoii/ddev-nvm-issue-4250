@@ -1,0 +1,11 @@
+RUN (apt-get remove -y nodejs || true) && (apt purge nodejs || true)
+
+ENV NVM_DIR=/usr/local/nvm
+RUN mkdir -p $NVM_DIR && install_nvm.sh
+RUN . $NVM_DIR/nvm.sh && nvm install 8
+RUN echo "source $NVM_DIR/nvm.sh" >>/etc/profile
+RUN bash -ic "nvm install 8"
+RUN chmod -R ugo+w $NVM_DIR
+
+# This is from ddev dockerfile
+RUN bash -ic "npm config set unsafe-perm true && npm install --global gulp-cli yarn"
